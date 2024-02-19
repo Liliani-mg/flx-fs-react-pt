@@ -4,7 +4,14 @@
 */
 
 function reverseString(str) {
-  // Tu solución acá  
+  // Tu solución acá
+  let reversed = "";
+
+  for (let i = str.length - 1; i >= 0; i--) {
+    reversed += str[i];
+  }
+
+  return reversed;
 }
 
 /*
@@ -14,6 +21,13 @@ function reverseString(str) {
 */
 function isPalindrome(str) {
   // Tu solución acá
+
+  let reversed = str.split("").reverse().join("");
+
+  if (reversed === str) {
+    return true;
+  }
+  return false;
 }
 
 /*
@@ -31,8 +45,21 @@ function isPalindrome(str) {
 
 function closestPair(arr) {
   // Tu solución acá
-}
+  const sortedArr = arr.sort((a, b) => a - b);
 
+  let minDifference = sortedArr[sortedArr.length - 1] - sortedArr[0];
+  let resultPair = [];
+
+  for (let i = 1; i < sortedArr.length; i++) {
+    const currentDifference = sortedArr[i] - sortedArr[i - 1];
+    if (currentDifference < minDifference) {
+      minDifference = currentDifference;
+      resultPair = [sortedArr[i - 1], sortedArr[i]];
+    }
+  }
+
+  return resultPair;
+}
 
 /*
   Ejercicio 4: Calculadora - Programación Orientada a Objetos
@@ -68,11 +95,49 @@ function closestPair(arr) {
 
 class Calculator {
   // Tu solución acá
+  constructor() {
+    this.lastResult = null;
+  }
+
+  add(a, b) {
+    this.lastResult = a + b;
+    return this.lastResult;
+  }
+
+  subtract(a, b) {
+    this.lastResult = a - b;
+    return this.lastResult;
+  }
+
+  multiply(a, b) {
+    this.lastResult = a * b;
+    return this.lastResult;
+  }
+
+  divide(a, b) {
+    if (b === 0) {
+      throw new Error("Division by zero is not allowed");
+    }
+    this.lastResult = a / b;
+    return this.lastResult;
+  }
+
+  getLastResult() {
+    return this.lastResult;
+  }
 }
+
+Calculator.prototype.exponentiate = function (base, exponent) {
+  if (exponent < 0) {
+    throw new Error("Exponentiation with negative exponent is not allowed");
+  }
+  this.lastResult = Math.pow(base, exponent);
+  return this.lastResult;
+};
 
 module.exports = {
   closestPair,
   isPalindrome,
   reverseString,
   Calculator,
-}
+};
